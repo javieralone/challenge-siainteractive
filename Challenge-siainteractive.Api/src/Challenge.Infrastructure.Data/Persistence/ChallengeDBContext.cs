@@ -1,10 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Challenge.Domain.Entities;
+using KataService.Infrastructure.Data.EntityConfigurations;
+using Microsoft.EntityFrameworkCore;
 
 namespace Challenge.Infrastructure.Data.Persistence;
 
 public class ChallengeDBContext : DbContext
 {
-
+    public DbSet<Product> Products { get; set; }
+    public DbSet<Category> Categories { get; set; }
+    public DbSet<ProductCategory> ProductCategories { get; set; }
 
     public ChallengeDBContext(DbContextOptions<ChallengeDBContext> contextOptions) : base(contextOptions)
     {
@@ -14,6 +18,8 @@ public class ChallengeDBContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
 
-
+        modelBuilder.ApplyConfiguration(new ProductConfiguration());
+        modelBuilder.ApplyConfiguration(new CategoryConfiguration());
+        modelBuilder.ApplyConfiguration(new ProductCategoryConfiguration());
     }
 }
