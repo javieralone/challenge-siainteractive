@@ -1,4 +1,5 @@
 using Challenge.Commands.Products.Create;
+using Challenge.Commands.Products.Update;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -38,5 +39,22 @@ public class ProductsController : Controller
         return Ok(response);
     }
 
+
+    /// <summary>
+    /// Update existing Product
+    /// </summary>
+    /// <param name="request"></param>
+    /// <returns>Product Id</returns>
+    [HttpPut]
+    [ProducesResponseType(typeof(UpdateProductCommandResponse), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [Produces("application/json")]
+    public async Task<IActionResult> Update([FromBody] UpdateProductCommandRequest request)
+    {
+        var response = await _mediator.Send(request);
+
+        return Ok(response);
+    }
 }
 
