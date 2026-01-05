@@ -7,4 +7,7 @@
     <Project Path="src/Challenge.Infrastructure.Data/Challenge.Infrastructure.Data.csproj" />
     <Project Path="src/Challenge.Queries/Challenge.Queries.csproj" />
   </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Challenge.Commands.Tests/Challenge.Commands.Tests.csproj" Id="cb0e9ede-2794-49d4-b56d-959dd498d36a" />
+  </Folder>
 </Solution>
