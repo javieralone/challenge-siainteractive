@@ -187,7 +187,7 @@ Challenge.Api/
 
 For detailed information about scalability, architectural design, and high-volume strategies, please refer to:
 
-👉 **[Service README - Scalability](./Challenge.Api/README.md)**
+👉 **[Service README - Scalability](./Challenge-siainteractive.Api/README.md)**
 
 This document contains:
 - Scalable API design for thousands of devices
