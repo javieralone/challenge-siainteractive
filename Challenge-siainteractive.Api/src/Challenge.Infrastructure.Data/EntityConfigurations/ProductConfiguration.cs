@@ -3,7 +3,7 @@ using Challenge.Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace KataService.Infrastructure.Data.EntityConfigurations;
+namespace Challenge.Infrastructure.Data.EntityConfigurations;
 
 public class ProductConfiguration : IEntityTypeConfiguration<Product>
 {

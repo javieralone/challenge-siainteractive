@@ -1,5 +1,5 @@
 ﻿using Challenge.Domain.Entities;
-using KataService.Infrastructure.Data.EntityConfigurations;
+using Challenge.Infrastructure.Data.EntityConfigurations;
 using Microsoft.EntityFrameworkCore;
 
 namespace Challenge.Infrastructure.Data.Persistence;
