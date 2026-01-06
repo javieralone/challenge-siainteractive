@@ -9,5 +9,6 @@
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/Challenge.Commands.Tests/Challenge.Commands.Tests.csproj" Id="cb0e9ede-2794-49d4-b56d-959dd498d36a" />
+    <Project Path="tests/KataService.Tests/KataService.Tests.csproj" Id="def55927-9afa-4ccc-8372-83df0a3e7788" />
   </Folder>
 </Solution>
