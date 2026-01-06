@@ -29,6 +29,8 @@ internal static class ProblemDetailsConfiguration
 
         options.MapToStatusCode<DuplicatedCategoryException>(StatusCodes.Status404NotFound);
 
+        options.MapToStatusCode<CategoryNotFoundException>(StatusCodes.Status404NotFound);
+
         // Because exceptions are handled polymorphically, this will act as a "catch all" mapping, which is why it's added last.
         // If an exception other than NotImplementedException and HttpRequestException is thrown, this will handle it.
         options.Map<Exception>(ex => new StatusCodeProblemDetails(StatusCodes.Status500InternalServerError));

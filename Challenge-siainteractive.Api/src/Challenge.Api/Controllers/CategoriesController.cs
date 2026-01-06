@@ -39,4 +39,20 @@ public class CategoriesController : Controller
         return Ok(response);
     }
 
+    /// <summary>
+    /// Update existing Category
+    /// </summary>
+    /// <param name="request"></param>
+    /// <returns>Category Id</returns>
+    [HttpPut]
+    [ProducesResponseType(typeof(UpdateCategoryCommandResponse), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [Produces("application/json")]
+    public async Task<IActionResult> Update([FromBody] UpdateCategoryCommandRequest request)
+    {
+        var response = await _mediator.Send(request);
+
+        return Ok(response);
+    }
 }
