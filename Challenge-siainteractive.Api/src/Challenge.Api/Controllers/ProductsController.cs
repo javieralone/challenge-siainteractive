@@ -2,6 +2,7 @@ using Challenge.Commands.Products.AssignCategory;
 using Challenge.Commands.Products.Create;
 using Challenge.Commands.Products.RemoveCategory;
 using Challenge.Commands.Products.Update;
+using Challenge.Commands.Products.UploadImage;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -90,6 +91,35 @@ public class ProductsController : Controller
     public async Task<IActionResult> RemoveCategory(long productId, long categoryId)
     {
         var request = new RemoveCategoryFromProductCommandRequest(productId, categoryId);
+        var response = await _mediator.Send(request);
+
+        return Ok(response);
+    }
+
+    /// <summary>
+    /// Upload image for a Product
+    /// </summary>
+    /// <param name="productId"></param>
+    /// <param name="file"></param>
+    /// <returns>Product Id and Image URL</returns>
+    [HttpPost("{productId}/image")]
+    [ProducesResponseType(typeof(UploadProductImageCommandResponse), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [Produces("application/json")]
+    public async Task<IActionResult> UploadImage(long productId, IFormFile file)
+    {
+        if (file == null || file.Length == 0)
+        {
+            return BadRequest("No file uploaded");
+        }
+
+        var request = new UploadProductImageCommandRequest(
+            productId,
+            file.OpenReadStream(),
+            file.FileName,
+            file.ContentType);
+
         var response = await _mediator.Send(request);
 
         return Ok(response);
