@@ -1,8 +1,16 @@
+using Challenge.Api.Models.ProductCategories;
+using Challenge.Api.Models.Products;
 using Challenge.Commands.Products.AssignCategory;
 using Challenge.Commands.Products.Create;
 using Challenge.Commands.Products.RemoveCategory;
 using Challenge.Commands.Products.Update;
 using Challenge.Commands.Products.UploadImage;
+using Challenge.Queries.Common.Models;
+using Challenge.Queries.ProductCategories.GetAll;
+using Challenge.Queries.ProductCategories.Models;
+using Challenge.Queries.Products.GetAll;
+using Challenge.Queries.Products.GetById;
+using Challenge.Queries.Products.Models;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -121,6 +129,93 @@ public class ProductsController : Controller
             file.ContentType);
 
         var response = await _mediator.Send(request);
+
+        return Ok(response);
+    }
+
+    /// <summary>
+    /// Get Product by Id
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns>Product details</returns>
+    [HttpGet("{id}")]
+    [ProducesResponseType(typeof(GetProductByIdQueryResponse), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [Produces("application/json")]
+    public async Task<IActionResult> GetById(long id)
+    {
+        var request = new GetProductByIdQueryRequest(Id: id);
+        var response = await _mediator.Send(request);
+
+        return Ok(response);
+    }
+
+    /// <summary>
+    /// Get all Products with pagination
+    /// </summary>
+    /// <param name="request"></param>
+    /// <returns>Paginated list of Products</returns>
+    [HttpGet]
+    [ProducesResponseType(typeof(GetProductsQueryResponse), (int)HttpStatusCode.OK)]
+    [Produces("application/json")]
+    public async Task<IActionResult> GetAll([FromQuery] GetProductsRequest request)
+    {
+        var queryRequest = new GetProductsQueryRequest
+        {
+            Pagination = new PaginationRequest
+            {
+                PageNumber = request.PageNumber,
+                RecordsPerPage = request.RecordsPerPage
+            }
+        };
+
+        if (!string.IsNullOrWhiteSpace(request.SortBy) &&
+            Enum.TryParse<ProductsOrderBy>(request.SortBy, true, out var orderBy))
+        {
+            queryRequest.OrderBy = new OrderFieldRequest<ProductsOrderBy>
+            {
+                OrderBy = orderBy,
+                Direction = request.SortDirection
+            };
+        }
+
+        var response = await _mediator.Send(queryRequest);
+
+        return Ok(response);
+    }
+
+    /// <summary>
+    /// Get Product Categories with optional filters
+    /// </summary>
+    /// <param name="request"></param>
+    /// <returns>Paginated list of Product Categories</returns>
+    [HttpGet("categories")]
+    [ProducesResponseType(typeof(GetProductCategoriesQueryResponse), (int)HttpStatusCode.OK)]
+    [Produces("application/json")]
+    public async Task<IActionResult> GetProductCategories([FromQuery] GetProductCategoriesRequest request)
+    {
+        var queryRequest = new GetProductCategoriesQueryRequest
+        {
+            ProductId = request.ProductId,
+            CategoryId = request.CategoryId,
+            Pagination = new PaginationRequest
+            {
+                PageNumber = request.PageNumber,
+                RecordsPerPage = request.RecordsPerPage
+            }
+        };
+
+        if (!string.IsNullOrWhiteSpace(request.SortBy) &&
+            Enum.TryParse<ProductCategoriesOrderBy>(request.SortBy, true, out var orderBy))
+        {
+            queryRequest.OrderBy = new OrderFieldRequest<ProductCategoriesOrderBy>
+            {
+                OrderBy = orderBy,
+                Direction = request.SortDirection
+            };
+        }
+
+        var response = await _mediator.Send(queryRequest);
 
         return Ok(response);
     }
