@@ -1,4 +1,5 @@
 ﻿using Challenge.Commands.Categories.Create;
+using Challenge.Commands.Categories.Update;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

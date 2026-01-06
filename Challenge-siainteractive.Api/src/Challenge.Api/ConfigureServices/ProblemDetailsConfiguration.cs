@@ -1,6 +1,6 @@
-﻿using FluentValidation;
+﻿using Challenge.Domain.Exceptions;
+using FluentValidation;
 using Hellang.Middleware.ProblemDetails;
-using Challenge.Domain.Exceptions;
 using ProblemDetailsOptions = Hellang.Middleware.ProblemDetails.ProblemDetailsOptions;
 
 namespace Challenge.Api.ConfigureServices;
@@ -30,6 +30,10 @@ internal static class ProblemDetailsConfiguration
         options.MapToStatusCode<DuplicatedCategoryException>(StatusCodes.Status404NotFound);
 
         options.MapToStatusCode<CategoryNotFoundException>(StatusCodes.Status404NotFound);
+        
+        options.MapToStatusCode<DuplicatedProductCategoryException>(StatusCodes.Status400BadRequest);
+
+        options.MapToStatusCode<ProductCategoryNotFoundException>(StatusCodes.Status404NotFound);
 
         // Because exceptions are handled polymorphically, this will act as a "catch all" mapping, which is why it's added last.
         // If an exception other than NotImplementedException and HttpRequestException is thrown, this will handle it.
